@@ -1,22 +1,48 @@
-from src.scraper import scrape_book
+from src.site_scraper import get_categories
 from src.category_scraper import get_book_links
+from src.scraper import scrape_book
+from src.image_downloader import download_image
+
 import pandas as pd
+import os
+import time
+
 
 if __name__ == "__main__":
-    category_url = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
+    categories = get_categories()
 
-    links = get_book_links(category_url)
+    # Create data folder
+    os.makedirs("data", exist_ok=True)
 
-    all_data = []
+    for category_name, category_url in categories.items():
+        print(f"Scraping category: {category_name}")
 
-    for link in links:
-        try:
-            data = scrape_book(link)
-            all_data.append(data)
-        except Exception as e:
-            print(f"Error scraping {link}: {e}")
+        links = get_book_links(category_url)
+        all_data = []
 
-    df = pd.DataFrame(all_data)
-    df.to_csv("category_books.csv", index=False)
+        # LOOP THROUGH BOOK LINKS (inside category loop)
+        for link in links:
+            try:
+                data = scrape_book(link)
+                all_data.append(data)
 
-    print("Category data saved to category_books.csv")
+                # Download image
+                download_image(
+                    data["image_url"],
+                    category_name.replace(" ", "_").lower(),
+                    data["universal_product_code"]
+                )
+
+                time.sleep(0.5)  # polite delay
+
+            except Exception as e:
+                print(f"Error scraping {link}: {e}")
+
+        # AFTER finishing the category, save CSV
+        safe_name = category_name.replace(" ", "_").lower()
+        file_path = f"data/{safe_name}.csv"
+
+        df = pd.DataFrame(all_data)
+        df.to_csv(file_path, index=False)
+
+        print(f"Saved: {file_path}")
