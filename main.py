@@ -1,12 +1,22 @@
 from src.scraper import scrape_book
+from src.category_scraper import get_book_links
 import pandas as pd
 
 if __name__ == "__main__":
-    url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
+    category_url = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
 
-    data = scrape_book(url)
+    links = get_book_links(category_url)
 
-    df = pd.DataFrame([data])
-    df.to_csv("book_data.csv", index=False)
+    all_data = []
 
-    print("Data saved to book_data.csv")
+    for link in links:
+        try:
+            data = scrape_book(link)
+            all_data.append(data)
+        except Exception as e:
+            print(f"Error scraping {link}: {e}")
+
+    df = pd.DataFrame(all_data)
+    df.to_csv("category_books.csv", index=False)
+
+    print("Category data saved to category_books.csv")
