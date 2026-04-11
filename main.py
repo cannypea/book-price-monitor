@@ -1,11 +1,20 @@
+import logging
+import os
+import time
+import pandas as pd
 from src.site_scraper import get_categories
 from src.category_scraper import get_book_links
 from src.scraper import scrape_book
 from src.image_downloader import download_image
 
-import pandas as pd
-import os
-import time
+
+# Configure logging
+os.makedirs("logs", exist_ok=True)  # optional: save logs in a folder
+logging.basicConfig(
+    filename="logs/scraper.log",  # log file path
+    level=logging.INFO,            # log all info and above
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
 
 
 if __name__ == "__main__":
@@ -32,11 +41,11 @@ if __name__ == "__main__":
                     category_name.replace(" ", "_").lower(),
                     data["universal_product_code"]
                 )
-
+                logging.info(f"Successfully scraped {link}")
                 time.sleep(0.5)  # polite delay
 
             except Exception as e:
-                print(f"Error scraping {link}: {e}")
+                logging.error(f"Failed to scrape {link}: {e}")
 
         # AFTER finishing the category, save CSV
         safe_name = category_name.replace(" ", "_").lower()

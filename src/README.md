@@ -1,120 +1,136 @@
-markdown
-## Book Price Monitoring System and Market analysis
-A Python-based web scraping application that extracts book data and pricing information from **Books to Scrape**. This project simulates a beta version of a price monitoring system for an online bookstore and is designed as a foundation for a scalable **ETL (Extract, Transform, Load) pipeline**.
+```markdown
+#  Book Price Monitoring System
+
+This project is a Python-based web scraping application that extracts book data from
+Books to Scrape. It is designed as a beta version of a price monitoring system for an online bookstore.
+
+##  Overview
+
+The application:
+- Scrapes book data from all categories
+- Extracts detailed product information
+- Saves structured data into CSV files
+- Downloads and organizes book images
+
+##  Features
+
+The scraper collects the following data for each book:
+- Product page URL  
+- Universal Product Code (UPC)  
+- Book title  
+- Price (including and excluding tax)  
+- Quantity available  
+- Product description  
+- Category  
+- Review rating  
+- Image URL  
 
 
-## Project Overview
-The application performs large-scale data extraction by:
+##  Project Structure
 
-- Scraping book details from an online retailer
-- Organizing data by category
-- Exporting structured datasets (CSV)
-- Downloading and storing product images
+```bash
 
-It is modular, reusable, and suitable for automating monitoring of book prices and other product data.
-
-## Features
-- Extracts:
-  - Product page URL  
-  - Universal Product Code (UPC)  
-  - Book title  
-  - Price (including & excluding tax)  
-  - Quantity available  
-  - Product description  
-  - Category  
-  - Review rating  
-  - Image URL  
-- Supports:
-  - Pagination handling  
-  - Multi-category scraping  
-  - Image downloading & organization  
-  - Clean CSV output per category  
-
-## Project Structure
 book-price-monitor/
 │
-├── data/                  # Output CSV files (ignored in Git)
-├── images/                # Downloaded images (ignored in Git)
-│
 ├── src/
-│   ├── scraper.py          # Scrapes individual book data
-│   ├── category_scraper.py # Gets book links from a category
-│   ├── site_scraper.py     # Extracts all categories
-│   ├── image_downloader.py # Downloads book images
+│   ├── scraper.py
+│   ├── category_scraper.py
+│   ├── site_scraper.py
+│   ├── image_downloader.py
 │
-├── main.py                 # Entry point of the application
-├── requirements.txt        # Project dependencies
-├── README.md               # Project documentation
-├── .gitignore              # Ignored file
+├── main.py
+├── requirements.txt
+├── README.md
+├── .gitignore
 
+````
 
-## Installation
+##  Installation
 
-### 1. Create the Repository using terminal
+### 1. Clone the Repository
 
-git create git@github.com:cannypeae/book-price-monitor.git
+```bash
+git clone git@github.com:cannypea/book-price-monitor.git
 cd book-price-monitor
+````
 
-### 2. Create a Virtual Environment by running the following in terminal
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv venv
+```
 
-### 3. Activate it by running Windows (PowerShell):**
+Activate it:
+
+**Windows (PowerShell):**
+
+```bash
 venv\Scripts\activate
+```
 
-### 4. Install Dependencies using terminal
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-## ▶️ Usage
-Run the program using terminal:
+---
+
+##  How to Run the Project
+
+Run the main script:
+
+```bash
 python main.py
+```
 
-This will:
-* Scrape all book categories
-* Extract each book’s details
-* Download book images
-* Save CSV files per category in `/data/`
-* Store images in `/images/<category>/`
+##  Output
 
-## 📊 Output Example
+After running the script, the following will be generated:
 
-### CSV Files
+### 1. CSV Files
+
+* Located in the `data/` folder
+* One CSV file per category
+
+Example:
+
+```
 data/travel.csv
 data/mystery.csv
+```
 
-### Images
+### 2. Images
+
+* Stored in the `images/` folder
+* Organized by category
+* Named using the book’s UPC
+
+Example:
+
+```
 images/travel/a897fe39b1053632.jpg
-images/mystery/b12cd45f6789012.jpg
+```
 
-## Notes
-* Output folders (`data/`, `images/`) are excluded from Git
-* Scraping includes a small delay to avoid overwhelming the server
-* Designed for educational purposes only
+##  Important Notes
 
-## ETL Pipeline Explanation
-This project demonstrates a simplified ETL pipeline:
+* The `data/` and `images/` folders are not included in the repository
+* These files are generated when the script is executed
+* Ensure you have an active internet connection before running the scraper;
 
-1. **Extract** – Scrapes raw HTML data from the website
-2. **Transform** – Cleans and structures data into consistent fields
-3. **Load** – Saves structured data into CSV files and organizes images
+##  How It Works (ETL Overview)
 
-This pipeline can be extended to:
-* Run automatically on a schedule (daily monitoring)
-* Store data in a database
-* Track price changes over time
-* Provide dashboards or APIs for analysis
+* **Extract**: Scrapes raw HTML data from the website
+* **Transform**: Cleans and structures the data into consistent fields
+* **Load**: Saves the data into CSV files and downloads images
 
-## Technologies Used
+##  Technologies Used
 
 * Python
 * Requests
 * BeautifulSoup
 * Pandas
-* Git & GitHub
 
+##  Author
 
-## Author
 Princewil Mbah
-
-
-## License
-This project is for educational and demonstration purposes.
